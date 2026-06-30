@@ -1,15 +1,15 @@
 {
-  "name": "video-editor",
-  "version": "1.0.0",
-  "description": "",
+  "name": "clipforge-ai-video-editor",
+  "version": "2.0.0",
+  "description": "AI powered video editor - AI auto-edits videos through scripts, applies effects, transitions, and exports. MCP server for AI control.",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
     "mcp": "node mcp-server.js",
     "dev": "node server.js & node mcp-server.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["ai", "video-editor", "ai-video-editor", "ffmpeg", "mcp", "auto-edit", "effects", "transitions", "nodejs"],
+  "author": "aarravhacker",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

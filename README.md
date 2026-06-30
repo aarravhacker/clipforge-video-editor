@@ -1,6 +1,15 @@
-# ClipForge Video Editor
+# ClipForge - AI Powered Video Editor
 
-A full-stack, browser-based video editor built with Node.js, Express, and FFmpeg. Features 30+ visual effects, 11 transitions, text/sticker overlays, speed control, and an MCP server for AI-powered editing.
+An **AI-powered video editor** that lets you edit videos using AI. Built with Node.js, Express, and FFmpeg. AI automatically edits videos through scripts, applies effects, transitions, and exports - all controlled programmatically by AI.
+
+## What Makes This AI Powered
+
+- **AI Auto-Edit Scripts** - AI generates and runs scripts to edit your videos automatically
+- **MCP Server** - AI controls the editor via JSON-RPC: upload, edit, apply effects, export
+- **AI Scene Detection** - Automatic scene change detection using I-frame analysis
+- **AI Effect Selection** - AI picks the best effects and transitions for your content
+- **AI Slideshow Generator** - AI creates slideshows from photos with transitions and music
+- **Programmatic Editing** - Every edit operation is API-accessible for AI automation
 
 ## Features
 
@@ -11,10 +20,10 @@ A full-stack, browser-based video editor built with Node.js, Express, and FFmpeg
 - **LUT Presets**: Cinematic, Warm, Cold, B&W High Contrast, Bleach Bypass, Cross Process
 - **Stylized**: Glitch, Neon Glow, Emboss, Pixelate, RGB Split, Film Grain, Vignette
 - **Transform**: Mirror, Flip, Kaleidoscope
-- **Advanced**: Chroma Key, Color Key
+- **Advanced**: Chroma Key, Color Key, Solarize, Posterize, Cartoon, Sketch
 
-### Transitions
-Fade, Fade Black, Fade White, Wipe (4 directions), Slide (4 directions), Smooth (4 directions), Circle Open/Close, Zoom In, Dissolve, Pixelize, Radial, Diagonal, and more.
+### Transitions (40+)
+Fade, Fade Black, Fade White, Wipe, Slide, Smooth, Circle Open/Close, Zoom, Dissolve, Pixelize, Radial, Diagonal, Film, and more.
 
 ### Timeline & Editing
 - Drag & drop video upload
@@ -38,11 +47,23 @@ Fade, Fade Black, Fade White, Wipe (4 directions), Slide (4 directions), Smooth 
 - Custom text overlays with font size, color, and timing
 - 30+ emoji sticker overlays
 
-### AI Scene Detection
-Automatic scene change detection using I-frame analysis.
+## AI Edit Scripts
 
-### MCP Server
-JSON-RPC server for AI-controlled editing - upload, apply effects, add transitions, and export videos programmatically.
+The `ai video editor/scripts/` folder contains AI-powered edit scripts:
+
+| Script | Description |
+|--------|-------------|
+| `sukuna_edit.js` | AI epic edit - applies 12 effects, chains xfade transitions, generates beat audio |
+| `sukuna_simple.js` | AI simple slideshow - fast concat with fade transitions |
+| `video_editor.js` | Core AI video editing engine |
+
+### How AI Edits Videos
+
+1. AI reads images/videos from the `custom upload/` folder
+2. AI applies effects (zoom, glitch, cinematic, neon, etc.)
+3. AI chains transitions between clips (fade, wipe, slide, dissolve)
+4. AI generates beat-synced audio
+5. AI exports the final polished video
 
 ## Tech Stack
 
@@ -52,7 +73,7 @@ JSON-RPC server for AI-controlled editing - upload, apply effects, add transitio
 | Video Engine | FFmpeg (bundled via ffmpeg-static) |
 | Frontend | HTML5 + CSS + Vanilla JS |
 | Upload | Multer (500MB limit) |
-| AI Control | Custom JSON-RPC MCP server |
+| AI Control | MCP JSON-RPC server |
 | Image Processing | Sharp |
 
 ## Getting Started
@@ -64,7 +85,7 @@ JSON-RPC server for AI-controlled editing - upload, apply effects, add transitio
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/clipforge-video-editor.git
+git clone https://github.com/aarravhacker/clipforge-video-editor.git
 cd clipforge-video-editor
 npm install
 ```
@@ -76,7 +97,7 @@ npm install
 npm start
 ```
 
-**MCP Server (port 3001):**
+**MCP AI Server (port 3001):**
 ```bash
 npm run mcp
 ```
@@ -91,22 +112,25 @@ Open [http://localhost:3040](http://localhost:3040) in your browser.
 ## Project Structure
 
 ```
-video-editor/
-├── server.js              # Main Express server (port 3040)
-├── mcp-server.js          # MCP JSON-RPC server (port 3001)
+clipforge-video-editor/
+├── server.js                  # Main Express server (port 3040)
+├── mcp-server.js              # AI MCP JSON-RPC server (port 3001)
 ├── package.json
 ├── public/
-│   ├── index.html         # Video editor UI
-│   ├── editor.html        # Photo editor UI
-│   ├── app.js             # Video editor frontend logic
-│   ├── editor.js          # Photo editor frontend logic
-│   ├── style.css          # Video editor styles
-│   └── editor.css         # Photo editor styles
-├── uploads/               # Uploaded videos (auto-created)
-├── exports/               # Exported videos (auto-created)
-├── proxies/               # 480p proxy previews (auto-created)
-├── data/                  # Project persistence (auto-created)
-└── FEATURES.txt           # Detailed feature list
+│   ├── index.html             # Video editor UI
+│   ├── editor.html            # Photo editor UI
+│   ├── app.js                 # Video editor frontend
+│   ├── editor.js              # Photo editor frontend
+│   ├── style.css              # Video editor styles
+│   └── editor.css             # Photo editor styles
+├── ai video editor/
+│   ├── scripts/               # AI edit scripts
+│   ├── video_editor.js        # AI video editing engine
+│   └── clips/                 # AI working clips
+├── uploads/                   # Uploaded videos (auto-created)
+├── exports/                   # Exported videos (auto-created)
+├── proxies/                   # 480p proxy previews (auto-created)
+└── FEATURES.txt               # Detailed feature list
 ```
 
 ## API Endpoints
@@ -126,12 +150,18 @@ video-editor/
 | POST | `/api/project/:id/export` | Export final video |
 | POST | `/api/project/:id/undo` | Undo last action |
 | POST | `/api/project/:id/redo` | Redo last action |
+| POST | `/api/project/:id/ai/scene-detect` | AI scene detection |
+| POST | `/api/project/:id/ai/upscale` | AI video upscaling |
 
-## MCP Tools
+## MCP AI Tools
 
-The MCP server exposes these tools via JSON-RPC at `http://localhost:3001`:
+The MCP server exposes these AI tools via JSON-RPC at `http://localhost:3001`:
 
 `upload_video`, `list_projects`, `get_timeline`, `trim`, `split_clip`, `apply_effect`, `add_transition`, `add_text`, `add_sticker`, `set_speed`, `set_speed_ramp`, `reverse_clip`, `set_volume`, `set_zoom`, `set_keyframe`, `export_video`
+
+## Author
+
+**Aarav Hacker** - [GitHub](https://github.com/aarravhacker)
 
 ## License
 
