@@ -21,10 +21,9 @@ frames/
 *.mov
 *.mkv
 
-# AI editor working directories
+# AI editor working directories (keep scripts)
 ai video editor/clips/
 ai video editor/exports/
-ai video editor/scripts/
 ai frame viewer/frames/
 ai frame viewer/processed/
 
