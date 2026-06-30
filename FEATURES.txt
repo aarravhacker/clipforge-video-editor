@@ -1,0 +1,175 @@
+╔══════════════════════════════════════════════════════════════╗
+║              CLIPFORGE VIDEO EDITOR v2.0                    ║
+║              All Features & Capabilities                    ║
+╚══════════════════════════════════════════════════════════════╝
+
+Server: http://localhost:3040
+MCP Server: http://localhost:3001
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EFFECTS (30 total)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Basic:
+  - Brightness        (slider: -1 to 1)
+  - Contrast          (slider: 0.5 to 2)
+  - Saturation        (slider: 0 to 3)
+  - Speed             (slider: 0.25x to 4x)
+  - Volume            (slider: 0 to 2)
+
+Blur Types:
+  - Blur              (box blur, slider: 0-20)
+  - Gaussian Blur     (gblur, slider: 0-50)
+  - Motion Blur       (convolution-based)
+  - Lens Blur         (lenscorrection)
+
+Color Effects:
+  - Grayscale (B&W)
+  - Sepia
+  - Vintage
+  - Warm tone
+  - Cool tone
+  - Invert
+
+Color Grading Presets (LUT):
+  - Cinematic
+  - LUT Warm
+  - LUT Cold
+  - B&W High Contrast
+  - Bleach Bypass
+  - Cross Process
+
+Stylized:
+  - Glitch            (RGB shift + hue oscillation)
+  - Neon Glow         (edge detect + negate)
+  - Emboss            (convolution kernel)
+  - Pixelate          (downscale + upscale)
+  - RGB Split         (chromatic aberration)
+  - Film Grain        (temporal noise)
+  - Vignette
+
+Transform:
+  - Mirror (horizontal flip)
+  - Flip (vertical flip)
+  - Kaleidoscope (hflip+vflip+hstack+vstack)
+
+Advanced:
+  - Chroma Key        (green screen removal)
+  - Color Key         (specific color removal)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TRANSITIONS (11 total)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  - Fade              (fade in/out)
+  - Slide             (slide in)
+  - Wipe              (wipe transition)
+  - Dissolve          (cross dissolve)
+  - Circle            (circle open)
+  - Zoom              (zoom in/out)
+  - Spin              (rotation)
+  - Glitch Transition (RGB shift + noise)
+  - Blur Transition   (blur ramp)
+  - Whip              (fast swish pan)
+  - Pan               (slow pan)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TIMELINE & CLIPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  - Drag & drop video upload
+  - Multi-project support
+  - Timeline with playhead scrubbing
+  - Clip splitting at playhead
+  - Clip trimming (start/end points)
+  - Clip reordering
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TEXT & OVERLAYS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  - Text overlays      (custom text, position, size, color, timing)
+  - Sticker/Emoji overlays (30+ emojis, position, size, timing)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PRO FEATURES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  - Speed control        (0.25x to 4x)
+  - Speed ramping        (variable speed: slow-mo in middle, fast at edges)
+  - Reverse              (play video backwards)
+  - Freeze frame         (grab frame, insert 3s still at playhead)
+  - Ken Burns zoom       (slow zoom in animation)
+  - Audio volume control (0 to 2x)
+  - Audio waveform       (visual waveform display)
+  - Keyframe animations  (position, scale, rotation, opacity)
+  - Watermark support
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MCP SERVER (AI Control)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  - upload_video        - Upload video from disk
+  - list_projects       - List all projects
+  - get_timeline        - Get timeline state
+  - trim                - Trim a clip
+  - split_clip          - Split clip at time
+  - apply_effect        - Apply any of 30 effects
+  - add_transition      - Add any of 11 transitions
+  - add_text            - Add text overlay
+  - add_sticker         - Add emoji sticker
+  - set_speed           - Set clip speed
+  - set_speed_ramp      - Set variable speed segments
+  - reverse_clip        - Toggle reverse
+  - set_volume          - Set audio volume
+  - set_zoom            - Toggle Ken Burns zoom
+  - set_keyframe        - Set animation keyframe
+  - export_video        - Render final video
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EXPORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  - All effects baked into final video
+  - FFmpeg-based rendering (libx264 + aac)
+  - Auto-download on export
+  - Proxy-based preview (480p for smooth playback)
+  - Full quality export (original resolution)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TECH STACK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Backend:  Node.js + Express 5
+  Video:    FFmpeg (bundled via ffmpeg-static)
+  Frontend: HTML5 + CSS + Vanilla JS
+  Upload:   Multer
+  MCP:      Custom JSON-RPC server
+  UI:       Dark theme, professional design
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+HOW TO USE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Run: npm start
+  2. Open: http://localhost:3040
+  3. Upload a video (drag & drop or browse)
+  4. Apply effects, transitions, text, stickers
+  5. Preview in real-time
+  6. Export final video
+
+MCP (AI Control):
+  1. MCP server runs on port 3001
+  2. Send JSON-RPC requests to control editor
+  3. Example: add effects, transitions, export
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

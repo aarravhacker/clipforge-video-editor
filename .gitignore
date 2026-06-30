@@ -1,0 +1,38 @@
+node_modules/
+
+# Uploads, exports, proxies, and generated media
+uploads/
+exports/
+proxies/
+data/
+custom upload/
+
+# Extracted frames and generated images
+frames/
+*.jpg
+*.jpeg
+*.png
+*.gif
+
+# Video files
+*.mp4
+*.webm
+*.avi
+*.mov
+*.mkv
+
+# AI editor working directories
+ai video editor/clips/
+ai video editor/exports/
+ai video editor/scripts/
+ai frame viewer/frames/
+ai frame viewer/processed/
+
+# Stickers (user content)
+stickers/
+
+# Temp files
+*.tmp
+*.log
+.DS_Store
+Thumbs.db

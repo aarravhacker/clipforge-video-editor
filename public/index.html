@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClipForge - Video Editor</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill="#e94560"/><path d="M10 8L20 14L10 20V8Z" fill="white"/></svg>
+        <span>ClipForge</span>
+      </div>
+      <div class="topbar-actions">
+        <a href="/editor.html" class="btn">Photo Editor</a>
+        <span id="projectStatus" class="status-badge hidden">No project</span>
+        <select id="exportFormat" class="input-field" style="width:80px;font-size:11px">
+          <option value="mp4">MP4</option>
+          <option value="webm">WebM</option>
+          <option value="gif">GIF</option>
+        </select>
+        <select id="exportQuality" class="input-field" style="width:90px;font-size:11px">
+          <option value="web">Web (Fast)</option>
+          <option value="medium" selected>Medium</option>
+          <option value="high">High Quality</option>
+          <option value="ultra">Ultra (Slow)</option>
+        </select>
+        <button id="exportBtn" class="btn btn-export" disabled>Export</button>
+      </div>
+    </header>
+    <div class="workspace">
+      <aside class="sidebar" id="sidebar">
+        <!-- Media -->
+        <div class="panel">
+          <div class="panel-header"><span>Media</span></div>
+          <div id="dropZone" class="drop-zone">
+            <p>Drop video here or</p>
+            <label class="btn btn-browse">Browse<input type="file" id="fileInput" accept="video/*" hidden></label>
+          </div>
+          <div id="mediaList" class="media-list"></div>
+        </div>
+        <!-- Effects -->
+        <div class="panel">
+          <div class="panel-header"><span>Effects</span></div>
+          <div class="effects-grid" id="effectsGrid">
+            <button class="effect-btn" data-effect="grayscale"><span>B&W</span></button>
+            <button class="effect-btn" data-effect="sepia"><span>Sepia</span></button>
+            <button class="effect-btn" data-effect="vintage"><span>Vintage</span></button>
+            <button class="effect-btn" data-effect="invert"><span>Invert</span></button>
+            <button class="effect-btn" data-effect="glitch"><span>Glitch</span></button>
+            <button class="effect-btn" data-effect="neon"><span>Neon</span></button>
+            <button class="effect-btn" data-effect="emboss"><span>Emboss</span></button>
+            <button class="effect-btn" data-effect="pixelate"><span>Pixel</span></button>
+            <button class="effect-btn" data-effect="mirror"><span>Mirror</span></button>
+            <button class="effect-btn" data-effect="flip"><span>Flip</span></button>
+            <button class="effect-btn" data-effect="warm"><span>Warm</span></button>
+            <button class="effect-btn" data-effect="cool"><span>Cool</span></button>
+            <button class="effect-btn" data-effect="kaleidoscope"><span>Kaleidoscope</span></button>
+          </div>
+          <div class="effect-presets" id="colorPresets">
+            <div class="preset-label">Color Grading</div>
+            <button class="preset-btn" data-effect="lut_cinematic"><span>Cinematic</span></button>
+            <button class="preset-btn" data-effect="lut_warm"><span>LUT Warm</span></button>
+            <button class="preset-btn" data-effect="lut_cold"><span>LUT Cold</span></button>
+            <button class="preset-btn" data-effect="lut_bw_high"><span>B&W Hi</span></button>
+            <button class="preset-btn" data-effect="lut_bleach"><span>Bleach</span></button>
+            <button class="preset-btn" data-effect="lut_cross"><span>Cross</span></button>
+          </div>
+          <div class="effect-presets">
+            <div class="preset-label">Artistic</div>
+            <button class="preset-btn" data-effect="sketch"><span>Sketch</span></button>
+            <button class="preset-btn" data-effect="pencil"><span>Pencil</span></button>
+            <button class="preset-btn" data-effect="charcoal"><span>Charcoal</span></button>
+            <button class="preset-btn" data-effect="cartoon"><span>Cartoon</span></button>
+            <button class="preset-btn" data-effect="oil_painting"><span>Oil Paint</span></button>
+            <button class="preset-btn" data-effect="watercolor"><span>Watercolor</span></button>
+            <button class="preset-btn" data-effect="popart"><span>Pop Art</span></button>
+            <button class="preset-btn" data-effect="psychedelic"><span>Psychedelic</span></button>
+          </div>
+          <div class="effect-presets">
+            <div class="preset-label">Cinematic</div>
+            <button class="preset-btn" data-effect="cinemascope"><span>Cinemascope</span></button>
+            <button class="preset-btn" data-effect="noir"><span>Film Noir</span></button>
+            <button class="preset-btn" data-effect="dream"><span>Dream</span></button>
+            <button class="preset-btn" data-effect="faded"><span>Faded</span></button>
+            <button class="preset-btn" data-effect="vhs"><span>VHS</span></button>
+            <button class="preset-btn" data-effect="film_8mm"><span>8mm Film</span></button>
+            <button class="preset-btn" data-effect="dv_cam"><span>DV Cam</span></button>
+            <button class="preset-btn" data-effect="film_grain_heavy"><span>Heavy Grain</span></button>
+          </div>
+          <div class="effect-presets">
+            <div class="preset-label">Distortion</div>
+            <button class="preset-btn" data-effect="fisheye"><span>Fisheye</span></button>
+            <button class="preset-btn" data-effect="barrel"><span>Barrel</span></button>
+            <button class="preset-btn" data-effect="solarize"><span>Solarize</span></button>
+            <button class="preset-btn" data-effect="posterize"><span>Posterize</span></button>
+          </div>
+          <div class="effect-presets">
+            <div class="preset-label">Utility</div>
+            <button class="preset-btn" data-effect="edge_detect"><span>Edges</span></button>
+            <button class="preset-btn" data-effect="canny"><span>Canny</span></button>
+            <button class="preset-btn" data-effect="sharpen_high"><span>Sharp+</span></button>
+            <button class="preset-btn" data-effect="denoise"><span>Denoise</span></button>
+          </div>
+          <div class="sliders">
+            <div class="slider-row"><label>Brightness</label><input type="range" id="brightness" min="-1" max="1" step="0.05" value="0"><span class="val" id="brightnessVal">0</span></div>
+            <div class="slider-row"><label>Contrast</label><input type="range" id="contrast" min="0.5" max="2" step="0.05" value="1"><span class="val" id="contrastVal">1</span></div>
+            <div class="slider-row"><label>Saturation</label><input type="range" id="saturation" min="0" max="3" step="0.05" value="1"><span class="val" id="saturationVal">1</span></div>
+            <div class="slider-row"><label>Blur</label><input type="range" id="blur" min="0" max="20" step="1" value="0"><span class="val" id="blurVal">0</span></div>
+            <div class="slider-row"><label>Gauss Blur</label><input type="range" id="gblur" min="0" max="50" step="1" value="0"><span class="val" id="gblurVal">0</span></div>
+            <div class="slider-row"><label>Sharpen</label><input type="range" id="sharpen" min="0" max="3" step="0.1" value="0"><span class="val" id="sharpenVal">0</span></div>
+            <div class="slider-row"><label>RGB Split</label><input type="range" id="rgbsplit" min="0" max="20" step="1" value="0"><span class="val" id="rgbsplitVal">0</span></div>
+            <div class="slider-row"><label>Grain</label><input type="range" id="grain" min="0" max="50" step="1" value="0"><span class="val" id="grainVal">0</span></div>
+            <div class="slider-row"><label>Speed</label><input type="range" id="speed" min="0.25" max="4" step="0.25" value="1"><span class="val" id="speedVal">1x</span></div>
+            <div class="slider-row"><label>Volume</label><input type="range" id="volume" min="0" max="2" step="0.1" value="1"><span class="val" id="volumeVal">1</span></div>
+          </div>
+        </div>
+        <!-- Chroma Key -->
+        <div class="panel">
+          <div class="panel-header"><span>Chroma Key</span></div>
+          <div class="chroma-row">
+            <label>Key Color</label>
+            <input type="color" id="chromaColor" value="#00ff00" class="color-input">
+          </div>
+          <div class="slider-row"><label>Similarity</label><input type="range" id="chromaSim" min="0" max="1" step="0.05" value="0.3"><span class="val" id="chromaSimVal">0.3</span></div>
+          <button class="btn btn-full" id="applyChromaBtn">Apply Chroma Key</button>
+        </div>
+        <!-- Transitions -->
+        <div class="panel">
+          <div class="panel-header"><span>Transitions</span></div>
+          <div class="transition-category">
+            <div class="category-label">Fade</div>
+            <div class="transition-grid">
+              <button class="btn btn-transition" data-trans="fade">Fade</button>
+              <button class="btn btn-transition" data-trans="fadeblack">Fade Black</button>
+              <button class="btn btn-transition" data-trans="fadewhite">Fade White</button>
+              <button class="btn btn-transition" data-trans="fadegrays">Fade Gray</button>
+            </div>
+          </div>
+          <div class="transition-category">
+            <div class="category-label">Wipe</div>
+            <div class="transition-grid">
+              <button class="btn btn-transition" data-trans="wipeleft">← Left</button>
+              <button class="btn btn-transition" data-trans="wiperight">→ Right</button>
+              <button class="btn btn-transition" data-trans="wipeup">↑ Up</button>
+              <button class="btn btn-transition" data-trans="wipedown">↓ Down</button>
+            </div>
+          </div>
+          <div class="transition-category">
+            <div class="category-label">Slide</div>
+            <div class="transition-grid">
+              <button class="btn btn-transition" data-trans="slideleft">← Left</button>
+              <button class="btn btn-transition" data-trans="slideright">→ Right</button>
+              <button class="btn btn-transition" data-trans="slideup">↑ Up</button>
+              <button class="btn btn-transition" data-trans="slidedown">↓ Down</button>
+            </div>
+          </div>
+          <div class="transition-category">
+            <div class="category-label">Smooth</div>
+            <div class="transition-grid">
+              <button class="btn btn-transition" data-trans="smoothleft">← Left</button>
+              <button class="btn btn-transition" data-trans="smoothright">→ Right</button>
+              <button class="btn btn-transition" data-trans="smoothup">↑ Up</button>
+              <button class="btn btn-transition" data-trans="smoothdown">↓ Down</button>
+            </div>
+          </div>
+          <div class="transition-category">
+            <div class="category-label">Shape</div>
+            <div class="transition-grid">
+              <button class="btn btn-transition" data-trans="circleopen">Circle Open</button>
+              <button class="btn btn-transition" data-trans="circleclose">Circle Close</button>
+              <button class="btn btn-transition" data-trans="circlecrop">Circle Crop</button>
+              <button class="btn btn-transition" data-trans="rectcrop">Rect Crop</button>
+            </div>
+          </div>
+          <div class="transition-category">
+            <div class="category-label">Transform</div>
+            <div class="transition-grid">
+              <button class="btn btn-transition" data-trans="zoomin">Zoom In</button>
+              <button class="btn btn-transition" data-trans="radial">Radial</button>
+              <button class="btn btn-transition" data-trans="squeezeh">Squeeze H</button>
+              <button class="btn btn-transition" data-trans="squeezev">Squeeze V</button>
+            </div>
+          </div>
+          <div class="transition-category">
+            <div class="category-label">Diagonal</div>
+            <div class="transition-grid">
+              <button class="btn btn-transition" data-trans="diagtl">TL ↘</button>
+              <button class="btn btn-transition" data-trans="diagtr">TR ↙</button>
+              <button class="btn btn-transition" data-trans="diagbl">BL ↗</button>
+              <button class="btn btn-transition" data-trans="diagbr">BR ↖</button>
+            </div>
+          </div>
+          <div class="transition-category">
+            <div class="category-label">Slice</div>
+            <div class="transition-grid">
+              <button class="btn btn-transition" data-trans="hrslice">H Right</button>
+              <button class="btn btn-transition" data-trans="hlslice">H Left</button>
+              <button class="btn btn-transition" data-trans="vuslice">V Up</button>
+              <button class="btn btn-transition" data-trans="vdslice">V Down</button>
+            </div>
+          </div>
+          <div class="transition-category">
+            <div class="category-label">Effect</div>
+            <div class="transition-grid">
+              <button class="btn btn-transition" data-trans="dissolve">Dissolve</button>
+              <button class="btn btn-transition" data-trans="pixelize">Pixelize</button>
+              <button class="btn btn-transition" data-trans="hblur">H Blur</button>
+              <button class="btn btn-transition" data-trans="fftsmooth">FFT Smooth</button>
+              <button class="btn btn-transition" data-trans="halftone">Halftone</button>
+            </div>
+          </div>
+          <div class="transition-category">
+            <div class="category-label">Film</div>
+            <div class="transition-grid">
+              <button class="btn btn-transition" data-trans="filmleft">Film Left</button>
+              <button class="btn btn-transition" data-trans="filmright">Film Right</button>
+            </div>
+          </div>
+          <div class="transition-category">
+            <div class="category-label">Other</div>
+            <div class="transition-grid">
+              <button class="btn btn-transition" data-trans="horzclose">Horz Close</button>
+              <button class="btn btn-transition" data-trans="horzopen">Horz Open</button>
+              <button class="btn btn-transition" data-trans="vertclose">Vert Close</button>
+              <button class="btn btn-transition" data-trans="vertopen">Vert Open</button>
+              <button class="btn btn-transition" data-trans="distance">Distance</button>
+            </div>
+          </div>
+        </div>
+        <!-- Text -->
+        <div class="panel">
+          <div class="panel-header"><span>Text</span></div>
+          <input type="text" id="textInput" placeholder="Enter text..." class="input-field">
+          <div class="input-row">
+            <div class="input-group"><label>X</label><input type="number" id="textX" value="10" class="input-field input-sm"></div>
+            <div class="input-group"><label>Y</label><input type="number" id="textY" value="10" class="input-field input-sm"></div>
+            <div class="input-group"><label>Size</label><input type="number" id="textSize" value="36" class="input-field input-sm"></div>
+          </div>
+          <input type="color" id="textColor" value="#ffffff" class="color-input">
+          <button class="btn btn-full" id="addTextBtn">Add Text</button>
+        </div>
+        <!-- Stickers -->
+        <div class="panel">
+          <div class="panel-header"><span>Stickers</span></div>
+          <div class="sticker-grid" id="stickerGrid"></div>
+        </div>
+        <!-- Speed Ramping -->
+        <div class="panel">
+          <div class="panel-header"><span>Speed Ramp</span></div>
+          <p class="panel-desc">Variable speed: slow-mo in middle, fast at edges</p>
+          <button class="btn btn-full" id="applySpeedRampBtn">Apply Speed Ramp</button>
+          <button class="btn btn-full" id="reverseBtn">Reverse Clip</button>
+          <button class="btn btn-full" id="freezeFrameBtn">Freeze Frame at Playhead</button>
+        </div>
+        <!-- Zoom -->
+        <div class="panel">
+          <div class="panel-header"><span>Zoom</span></div>
+          <button class="btn btn-full" id="toggleZoomBtn">Enable Ken Burns</button>
+        </div>
+        <!-- AI Tools -->
+        <div class="panel">
+          <div class="panel-header"><span>AI Tools</span></div>
+          <button class="btn btn-full" id="aiSceneDetect">Detect Scenes</button>
+          <button class="btn btn-full" id="aiUpscale">Upscale 2x</button>
+        </div>
+      </aside>
+      <main class="editor">
+        <div class="preview-wrapper">
+          <div class="preview-area" id="previewArea">
+            <div class="preview-placeholder" id="previewPlaceholder">
+              <p>Upload a video to start editing</p>
+            </div>
+            <video id="videoPlayer" controls></video>
+            <div id="previewOverlay" class="preview-overlay"></div>
+          </div>
+        </div>
+        <div class="timeline-wrapper">
+          <div class="timeline-toolbar">
+            <div class="transport">
+              <button id="undoBtn" class="transport-btn" disabled title="Undo">&#8630;</button>
+              <button id="redoBtn" class="transport-btn" disabled title="Redo">&#8631;</button>
+              <button id="skipBackBtn" class="transport-btn" disabled title="Skip back 5s">&#9198;</button>
+              <button id="playBtn" class="transport-btn play-btn" disabled title="Play">&#9654;</button>
+              <button id="pauseBtn" class="transport-btn" disabled title="Pause">&#10074;&#10074;</button>
+              <button id="skipForwardBtn" class="transport-btn" disabled title="Skip forward 5s">&#9197;</button>
+              <button id="splitBtn" class="transport-btn" disabled title="Split at playhead">&#9876;</button>
+            </div>
+            <div class="timecode"><span id="currentTime">00:00.000</span><span class="time-sep">/</span><span id="totalTime">00:00.000</span></div>
+          </div>
+          <div class="timeline-ruler" id="timelineRuler"></div>
+          <div id="trackContainer">
+            <div class="timeline-track-wrapper">
+              <div class="track-label">V1</div>
+              <div class="timeline-track" id="timelineTrack">
+                <div class="track-clip" id="trackClip"></div>
+                <div class="timeline-playhead" id="playhead"><div class="playhead-head"></div><div class="playhead-line"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="track-controls">
+            <button class="btn btn-small" id="addTrackBtn" title="Add Track">+ Track</button>
+            <button class="btn btn-small" id="addOverlayTrackBtn" title="Add Overlay Track">+ Overlay</button>
+          </div>
+          <div class="waveform-wrapper" id="waveformWrapper" style="display:none">
+            <img id="waveformImg" class="waveform-img" alt="waveform">
+          </div>
+          <div class="active-effects" id="activeEffects"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <div id="toast" class="toast"></div>
+  <div id="loadingOverlay" class="loading-overlay hidden"><div class="spinner"></div><p id="loadingText">Processing...</p></div>
+  <script src="app.js"></script>
+</body>
+</html>

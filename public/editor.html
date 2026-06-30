@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClipForge - Photo Editor</title>
+  <link rel="stylesheet" href="editor.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="logo">
+        <a href="/" class="back-btn">← Back to Video Editor</a>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#e94560"/><path d="M8 6l10 6-10 6V6z" fill="white"/></svg>
+        <span>ClipForge Photo Editor</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn" id="undoBtn" title="Undo (Ctrl+Z)">&#8630;</button>
+        <button class="btn" id="redoBtn" title="Redo (Ctrl+Y)">&#8631;</button>
+        <button class="btn btn-secondary" id="resetBtn">Reset</button>
+        <select id="exportFormat" class="input-field" style="width:80px">
+          <option value="png">PNG</option>
+          <option value="jpg">JPG</option>
+          <option value="webp">WebP</option>
+        </select>
+        <input type="range" id="exportQuality" min="10" max="100" value="95" style="width:60px" title="Quality">
+        <button class="btn btn-export" id="exportBtn">Export Image</button>
+      </div>
+    </header>
+    <div class="workspace">
+      <aside class="toolbar">
+        <button class="tool-btn active" data-tool="select" title="Select">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 4l6 12 2-5 5-2L4 4z" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="brush" title="Brush">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 17l2-6L14 2l4 4-9 9-6 2z" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="eraser" title="Eraser">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="8" width="14" height="8" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 8V4h6v4" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="text" title="Text">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 5h12M10 5v12M7 17h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="shape" title="Shape">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="line" title="Line">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 16L16 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="tool-separator"></div>
+        <button class="tool-btn" data-tool="crop" title="Crop">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 2v13h13M2 5h13v13" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="rotate" title="Rotate">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10a6 6 0 1112 0" stroke="currentColor" stroke-width="1.5"/><path d="M16 6v4h-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="tool-btn" data-tool="flip" title="Flip">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v14M6 6l-4 4 4 4M14 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </aside>
+      <main class="editor-area">
+        <div class="canvas-wrapper" id="canvasWrapper">
+          <canvas id="mainCanvas"></canvas>
+          <div class="upload-zone" id="uploadZone">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 32V16M16 24l8-8 8 8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 36v4h32v-4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <p>Drop image here or click to upload</p>
+            <input type="file" id="fileInput" accept="image/*" hidden>
+          </div>
+        </div>
+      </main>
+      <aside class="sidebar">
+        <div class="panel" id="propertiesPanel">
+          <div class="panel-header">Properties</div>
+          <div class="prop-group" id="toolProps">
+            <div class="prop-row">
+              <label>Color</label>
+              <input type="color" id="brushColor" value="#ffffff" class="color-input">
+            </div>
+            <div class="prop-row">
+              <label>Size</label>
+              <input type="range" id="brushSize" min="1" max="100" value="5">
+              <span class="val" id="brushSizeVal">5</span>
+            </div>
+            <div class="prop-row">
+              <label>Opacity</label>
+              <input type="range" id="brushOpacity" min="0" max="100" value="100">
+              <span class="val" id="brushOpacityVal">100%</span>
+            </div>
+          </div>
+          <div class="prop-group" id="textProps" style="display:none">
+            <div class="prop-row">
+              <label>Font Size</label>
+              <input type="number" id="fontSize" value="36" class="input-field">
+            </div>
+            <div class="prop-row">
+              <label>Font</label>
+              <select id="fontFamily" class="input-field">
+                <option value="Inter">Inter</option>
+                <option value="Arial">Arial</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Courier New">Courier</option>
+                <option value="Impact">Impact</option>
+              </select>
+            </div>
+            <div class="prop-row">
+              <label>Bold</label>
+              <input type="checkbox" id="fontBold">
+            </div>
+            <div class="prop-row">
+              <label>Italic</label>
+              <input type="checkbox" id="fontItalic">
+            </div>
+          </div>
+          <div class="prop-group" id="shapeProps" style="display:none">
+            <div class="prop-row">
+              <label>Shape</label>
+              <select id="shapeType" class="input-field">
+                <option value="rect">Rectangle</option>
+                <option value="ellipse">Ellipse</option>
+                <option value="circle">Circle</option>
+              </select>
+            </div>
+            <div class="prop-row">
+              <label>Fill</label>
+              <input type="checkbox" id="shapeFill" checked>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">Filters</div>
+          <div class="filters-grid">
+            <button class="filter-btn" data-filter="none">Original</button>
+            <button class="filter-btn" data-filter="grayscale">B&W</button>
+            <button class="filter-btn" data-filter="sepia">Sepia</button>
+            <button class="filter-btn" data-filter="vintage">Vintage</button>
+            <button class="filter-btn" data-filter="warm">Warm</button>
+            <button class="filter-btn" data-filter="cool">Cool</button>
+            <button class="filter-btn" data-filter="dramatic">Dramatic</button>
+            <button class="filter-btn" data-filter="fade">Fade</button>
+            <button class="filter-btn" data-filter="noir">Noir</button>
+            <button class="filter-btn" data-filter="dream">Dream</button>
+            <button class="filter-btn" data-filter="popart">Pop Art</button>
+            <button class="filter-btn" data-filter="solarize">Solarize</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">Adjustments</div>
+          <div class="sliders">
+            <div class="slider-row"><label>Brightness</label><input type="range" id="brightness" min="-100" max="100" value="0"><span class="val" id="brightnessVal">0</span></div>
+            <div class="slider-row"><label>Contrast</label><input type="range" id="contrast" min="-100" max="100" value="0"><span class="val" id="contrastVal">0</span></div>
+            <div class="slider-row"><label>Saturation</label><input type="range" id="saturation" min="-100" max="100" value="0"><span class="val" id="saturationVal">0</span></div>
+            <div class="slider-row"><label>Hue</label><input type="range" id="hue" min="0" max="360" value="0"><span class="val" id="hueVal">0</span></div>
+            <div class="slider-row"><label>Blur</label><input type="range" id="blur" min="0" max="20" value="0"><span class="val" id="blurVal">0</span></div>
+            <div class="slider-row"><label>Sharpen</label><input type="range" id="sharpen" min="0" max="10" value="0"><span class="val" id="sharpenVal">0</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">Layers</div>
+          <div id="layersList" class="layers-list"></div>
+          <div class="layer-actions">
+            <select id="blendMode" class="input-field" style="width:100%;margin-bottom:6px">
+              <option value="source-over">Normal</option>
+              <option value="multiply">Multiply</option>
+              <option value="screen">Screen</option>
+              <option value="overlay">Overlay</option>
+              <option value="darken">Darken</option>
+              <option value="lighten">Lighten</option>
+              <option value="color-dodge">Color Dodge</option>
+              <option value="color-burn">Color Burn</option>
+              <option value="hard-light">Hard Light</option>
+              <option value="soft-light">Soft Light</option>
+              <option value="difference">Difference</option>
+              <option value="exclusion">Exclusion</option>
+              <option value="hue">Hue</option>
+              <option value="saturation">Saturation</option>
+              <option value="color">Color</option>
+              <option value="luminosity">Luminosity</option>
+            </select>
+            <button class="btn btn-small" id="addLayerBtn">+ Add Layer</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">AI Tools</div>
+          <div class="ai-tools">
+            <button class="btn btn-full" id="aiAutoColor">Auto Color Correct</button>
+            <button class="btn btn-full" id="aiSmartCrop">Smart Crop</button>
+            <button class="btn btn-full" id="aiBgRemove">Remove Background</button>
+            <button class="btn btn-full" id="aiStyleMonet">Style: Monet</button>
+            <button class="btn btn-full" id="aiStyleVanGogh">Style: Van Gogh</button>
+            <button class="btn btn-full" id="aiStylePopArt">Style: Pop Art</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="editor.js"></script>
+</body>
+</html>
